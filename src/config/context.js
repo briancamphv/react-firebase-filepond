@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import firebase from 'firebase';
 import MyStore from './store'
 
 const Context=React.createContext();

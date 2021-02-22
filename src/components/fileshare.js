@@ -7,11 +7,14 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
+import 'filepond-plugin-get-file/dist/filepond-plugin-get-file.min.css';
+
+import FilePondPluginGetFile from 'filepond-plugin-get-file';
 
 
 import firebase from 'firebase'
 import MyStore from '../config/store'
-registerPlugin(FilePondPluginImagePreview);
+registerPlugin(FilePondPluginImagePreview, FilePondPluginGetFile);
 class fileshare extends Component{
 
     

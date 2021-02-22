@@ -82,6 +82,7 @@ state={
             {return <img src="static/asset/docs.png"  height="50px" />}
         }
         const files = this.props.myFiles.map( myfile =>(
+
           
             <div  className="myFile">
                 <div>{setIcon(myfile.contentType)}</div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import DownloadFile from './components/download/download.component'
 
 import { FilePond, registerPlugin,File} from "react-filepond";
 
@@ -124,6 +125,9 @@ class App extends Component {
                             uid={user.uid}
                             myFiles={myFiles}
                             />
+                          </section>
+                          <section>
+                            <DownloadFile />
                           </section>
                           <aside>
                             <Logs

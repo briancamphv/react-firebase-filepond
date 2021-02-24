@@ -19,30 +19,45 @@ state={
     }
 
    
-    // componentDidMount=()=>{
-    //     const id =this.props.uid
-    //     this.databaseRef.child(id).on('value',snap=>{
 
-    //         let myArr=[]
 
-    //         console.log(snap.val())
-    //         for(const key in snap.val()){
-    //             myArr.push(Object.assign({},snap.val()[key].metadataFile,{key:key}));
-    //             console.log(snap.val()[key].metadataFile);
-    //         }
+    downloadEmployeeData = (name,contentType,key) => {
 
-    //         if(snap.val()!=null){
-    //             this.setState({
-    //                 myFiles:myArr
-    //             })
-    //         }
-    //     })
-    // }
+        const fullpathName=this.props.uid+'/'+name
+        const storageRef = MyStore.storage().ref();
+        const url = storageRef.location.bucket
+        storageRef.child(fullpathName).getDownloadURL()
+            .then((url) => {
+                
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = 'blob';
+                xhr.onload = (event) => {
+                    var blob = xhr.response;
+                    var data = new Blob([xhr.response], { type: contentType });
+                    var csvURL = window.URL.createObjectURL(data);
+                    var tempLink = document.createElement('a');
+                    tempLink.href = csvURL;
+                    tempLink.setAttribute('download', name);
+                    tempLink.click();
+                };
+                xhr.open('GET', url);
+                xhr.send();
+
+  
+            })
+            .catch((error) => {
+                // Handle any errors
+            });
+
+
+
+    }
+
 
     deleteFile=(name,key)=>{
 
         console.log(name,key)
-        this.storageRef.child(name).delete().then( ()=>{
+        this.storageRef.child(this.props.uid + '/' + name).delete().then( ()=>{
             this.databaseRef.child(this.props.uid).child("files").child(key).remove().then(()=>{
                 console.log("deleted")
                 this.databaseRef.on('value',snap=>{
@@ -90,8 +105,9 @@ state={
                     <h4>{myfile.name}</h4>
                     <p>{myfile.contentType}</p>
                     <div className="icons">
-                    <a class="text_blue download" href={myfile.downloadURL} target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
-                    <a class="btn_delete delete"onClick={this.deleteFile.bind(this,myfile.name,myfile.key)}><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    {/* <a class="text_blue download" href={myfile.downloadURL} target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a> */}
+                    <a class="text_blue download" onClick={this.downloadEmployeeData.bind(this,myfile.name,myfile.contentType,myfile.key)} target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
+                    <a class="btn_delete delete" onClick={this.deleteFile.bind(this,myfile.name,myfile.key)}><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
                     
                 </div>

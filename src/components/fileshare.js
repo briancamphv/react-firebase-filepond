@@ -39,7 +39,7 @@ class fileshare extends Component{
 
     const fileUpload = file;
     
-    const task = this.storageRef.child(file.name).put(fileUpload)
+    const task = this.storageRef.child(this.props.uid + '/' + file.name).put(fileUpload)
 
     task.on(`state_changed` , (snapshort) => {
         console.log(snapshort.bytesTransferred, snapshort.totalBytes)
@@ -61,10 +61,10 @@ class fileshare extends Component{
         })
 
         //Get metadata
-        this.storageRef.child(file.name).getMetadata().then((metadata) => {
+        this.storageRef.child(this.props.uid + '/' + file.name).getMetadata().then((metadata) => {
           // Metadata now contains the metadata for 'filepond/${file.name}'
           let downloadURL = ''
-          this.storageRef.child(file.name).getDownloadURL().then( url =>{
+          this.storageRef.child(this.props.uid + '/' + file.name).getDownloadURL().then( url =>{
             console.log(url)
             let metadataFile = { 
               name: metadata.name, 
@@ -79,7 +79,7 @@ class fileshare extends Component{
   
           this.databaseRef.child(this.props.uid).child("files").push({  metadataFile });
           this.databaseRef.child(this.props.uid).child("log").push().set({
-            action:`${file.name} uploaded`,
+            action:`${this.props.uid + '/' + file.name} uploaded`,
             timestamp:new Date()
           });
           })

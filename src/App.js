@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import DownloadFile from './components/download/download.component'
 
 import { FilePond, registerPlugin,File} from "react-filepond";
 
@@ -20,6 +19,7 @@ import MyStore from './config/store'
 
 import Login from './container/login'
 import { Provider,Consumer } from './config/context';
+import DownloadFile from './components/download/download.component';
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
 class App extends Component {
